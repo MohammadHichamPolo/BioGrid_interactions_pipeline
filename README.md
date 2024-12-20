@@ -185,7 +185,7 @@ Top 5 Interactors (example results):
 | ygdL         | fimH         | Negative Genetic   | -7.21251  |
 
 ### Visualization:
-The gene interaction network for fimH is presented below:
+The gene interaction network for *fimH* is presented below:
 ![*figure 5 : Le graphe généré représentant les interactions des 9 gènes trouvés avec fimH; toute distance proche montre une interaction importante; tout gènes rapproché par degré d'angle comme yghD et gntY montre un rapprochement de ces derniers eux aussi.*](./images/gene_gene_interaction_plot.png)
 ## Key Observations:
 *fimH* appears as a central node with multiple direct interactions, emphasizing its pivotal role.
