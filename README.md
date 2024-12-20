@@ -14,6 +14,7 @@ Demonstrate the pipeline’s utility using the fimH gene as a case study.
 Highlight the interactions of fimH, including positive and negative genetic interactions, and discuss their biological significance.
 ## Database Details
 ### Overview of BioGRID:
+![*figure 1: Home page of BioGRID database website*](./images/biogrid_homepage.png)
 #### Description of BioGRID
 BioGRID (Biological General Repository for Interaction Datasets) is a curated database that archives genetic and physical interaction data across species. Its key features include:
 
@@ -28,6 +29,7 @@ BioGRID includes data for thousands of species, with a focus on model organisms 
 Interactions are curated from primary literature and large-scale experiments.
 ### API Details
 The BioGRID REST API enables programmatic access to its repository, facilitating data retrieval for user-defined queries.
+![*figure 2 : BioGRID webservice generator of API key access*](./images/biogrid_webservice.png)
 #### Key Features of the BioGRID API:
 Flexible search using gene names, systematic IDs, or organism identifiers.
 Output formats: JSON, tab-delimited text, etc.
@@ -46,6 +48,7 @@ accessKey: User-specific API key.
 ##### API Query:
 Used the BioGRID API to fetch interaction data for *fimH* using a Python script.
 Example user input:
+
 ```Enter the gene name (e.g., fimH): fimH ```  
 ##### Error Handling:
 Ensured robustness by implementing error handling for failed API calls, incorrect inputs, or empty responses.
@@ -108,7 +111,7 @@ first 10 interactions
        print("No interactions to display.")
 ```
 #### Flow Diagram:
-![*Figure 3 : Workflow des tâches au niveau du process et du pipeline.*](./images/diagram.png)
+![*figure 3 : Workflow des tâches au niveau du process et du pipeline.*](./images/workflow_pipeline.png)
 ### Error Handling and Challenges:
 #### Potential Issues:
 ##### Missing or Incomplete Data:
@@ -172,64 +175,172 @@ Understanding these interactions can provide insight into UPEC pathogenesis and 
 Using the BioGRID API, interaction data for the fimH gene was fetched and processed. The following summarizes the key findings:
 Total Number of Interactions: n = 9.
 Top 5 Interactors (example results):
-Interactor A	Interactor B	Interaction Type	Biological Significance
-fimH	mannosylated_host	Physical Interaction	Mediates bacterial adhesion to host.
-fimC	fimH	Genetic Interaction	Involved in fimbrial assembly.
-fimD	fimH	Physical Interaction	Stabilizes fimbrial tip adhesins.
-fimG	fimH	Genetic Interaction	Facilitates fimbrial subunit linkage.
-PapG	fimH	Physical Interaction	Cross-talk in UPEC adhesin systems.
-Visualization:
+*Tableau 1 : les top 5 interacteurs générés par le pipeline.*
+| Interactor A | Interactor B | Interaction Type   | Score     |
+|--------------|--------------|--------------------|-----------|
+| gntY         | fimH         | Positive Genetic   | 4.72872   |
+| agaS         | fimH         | Positive Genetic   | 4.72872   |
+| exbB         | fimH         | Negative Genetic   | -4.09639  |
+| yghD         | fimH         | Negative Genetic   | -6.00313  |
+| ygdL         | fimH         | Negative Genetic   | -7.21251  |
+
+### Visualization:
 The gene interaction network for fimH is presented below:
-
-Key Observations:
-fimH appears as a central node with multiple direct interactions, emphasizing its pivotal role.
-Interactors such as fimC, fimD, and fimG cluster around fimH, indicating their functional associations in fimbrial biogenesis.
+![*figure 5 : Le graphe généré représentant les interactions des 9 gènes trouvés avec fimH; toute distance proche montre une interaction importante; tout gènes rapproché par degré d'angle comme yghD et gntY montre un rapprochement de ces derniers eux aussi.*](./images/gene_gene_interaction_plot.png)
+## Key Observations:
+*fimH* appears as a central node with multiple direct interactions, emphasizing its pivotal role.
+Interactors such as agaS that is the only gene that has not been linked to any step in the Aga/Gam pathway, and gntY that typically encodes a repressor protein involved in the regulation of genes within the gluconate utilization (gnt) operon also yghD that is predicted to play a role in iron-sulfur cluster (Fe-S cluster) assembly and cellular oxidative stress responses, these genes cluster around *fimH*, indicating their functional associations in fimbrial biogenesis.
 Notable connections with host receptors highlight its relevance to bacterial-host interactions.
-6.3 Interpretation
+### Interpretation
 
-The interaction network of the fimH gene provides the following biological insights:
+The interaction network of the *fimH* gene provides the following biological insights:
 
-Central Role:
-fimH serves as a critical hub in the fimbrial adhesion pathway, interacting with both bacterial proteins and host receptors.
+#### Central Role:
+*fimH* serves as a critical hub in the fimbrial adhesion pathway, interacting with both bacterial proteins and host receptors.
 Its centrality in the network makes it a promising target for anti-adhesion therapies to disrupt bacterial colonization.
-Potential Drug Targets:
-The interactions between fimH and mannosylated glycoproteins validate the rationale behind mannose-based therapies.
+#### Potential Drug Targets:
+The interactions between *fimH* and mannosylated glycoproteins validate the rationale behind mannose-based therapies.
 Inhibiting fimH interactions could reduce bacterial adherence and prevent UTIs.
-Functional Pathways:
-Interactions with fimC, fimD, and fimG suggest a tightly regulated fimbrial assembly mechanism, providing opportunities for further exploration of UPEC virulence pathways.
+#### Functional Pathways:
+Interactions with *gntY, agaS, exbB,yghD,ygdL,ygcL, dadX, yceG* and *Dsg2* suggest a tightly regulated fimbrial assembly mechanism, providing opportunities for further exploration of UPEC virulence pathways.
 These findings underscore the utility of the pipeline in uncovering biologically significant gene interaction networks and their implications.
 
-7. Discussion
-Strengths of the Pipeline:
+## Discussion
+### Strengths of the Pipeline:
 
-Automation: Fully automated retrieval, processing, and visualization streamline analysis workflows.
-Modularity: The pipeline is designed with modular functions that can be easily adapted for different genes or interaction datasets.
-Reproducibility: By relying on the BioGRID API and Python libraries, results can be consistently reproduced across studies.
-Utility:
+*Automation:* Fully automated retrieval, processing, and visualization streamline analysis workflows.
+*Modularity:* The pipeline is designed with modular functions that can be easily adapted for different genes or interaction datasets.
+*Reproducibility:* By relying on the BioGRID API and Python libraries, results can be consistently reproduced across studies.
+### Utility:
 The pipeline is not limited to fimH but can be applied to other genes, enabling large-scale analysis in genomics, functional studies, and systems biology.
 
-Limitations:
+### Limitations:
+*Data Quality:* The accuracy and completeness of the results depend on the quality of data provided by the BioGRID database.
+*Ambiguous Data:* Some interactions may lack sufficient metadata, leading to challenges in biological interpretation.
+*Visualization Complexity:* Networks with a large number of interactors can become cluttered, requiring additional filtering strategies.
 
-Data Quality: The accuracy and completeness of the results depend on the quality of data provided by the BioGRID database.
-Ambiguous Data: Some interactions may lack sufficient metadata, leading to challenges in biological interpretation.
-Visualization Complexity: Networks with a large number of interactors can become cluttered, requiring additional filtering strategies.
-Future Directions:
+### Future Directions:
 
-Integration with Other Databases: Expanding the pipeline to include data from STRING, KEGG, or Reactome for a comprehensive interaction landscape.
-Enhanced Visualization: Incorporating interactive graph tools like Plotly or Cytoscape for better user exploration.
-Drug Discovery Applications: Integrating the pipeline with drug-target databases to identify therapeutic candidates.
-8. Conclusion
-This study demonstrates a computational pipeline for gene interaction analysis using the fimH gene as a case study:
+*Integration with Other Databases:* Expanding the pipeline to include data from STRING, KEGG, or Reactome for a comprehensive interaction landscape.
+*Enhanced Visualization:* Incorporating interactive graph tools like Plotly or Cytoscape for better user exploration.
+*Drug Discovery Applications:* Integrating the pipeline with drug-target databases to identify therapeutic candidates.
 
+## Conclusion
+This project demonstrates a computational pipeline for gene interaction analysis using the *fimH* gene as a case study:
 The pipeline efficiently retrieved and visualized the fimH interaction network, highlighting its biological importance in UPEC pathogenesis.
-The centrality of fimH in the network reaffirms its potential as a therapeutic target for anti-adhesion strategies.
+The centrality of *fimH* in the network reaffirms its potential as a therapeutic target for anti-adhesion strategies.
 The modular and reproducible nature of the pipeline makes it a valuable tool for future studies in functional genomics and gene interaction analysis.
-9. References
-BioGRID Database and API:
-Stark, C., et al. "The BioGRID interaction database: 2023 update." Nucleic Acids Research.
-fimH Gene and UPEC:
-Sharon, N., & Ofek, I. "Mannose-binding adhesins of Escherichia coli." Microbial Pathogenesis.
-Flores-Mireles, A. L., et al. "Urinary tract infections: epidemiology, mechanisms of infection and treatment options." Nature Reviews Microbiology.
-Tools Used:
-NetworkX: Hagberg, A., et al. NetworkX Reference.
-Matplotlib: Hunter, J. D. "Matplotlib: A 2D Graphics Environment." Computing in Science & Engineering.
+
+## References
+### BioGRID Database and API:
+Oughtred, R., Stark, C., Breitkreutz, B. J., Rust, J., Boucher, L., Chang, C., ... & Tyers, M. (2019). The BioGRID interaction database: 2019 update. Nucleic acids research, 47(D1), D529-D541. Flores-Mireles, A. L., Walker, J. N., Caparon, M., & Hultgren, S. J. (2015). Urinary tract infections: epidemiology, mechanisms of infection and treatment options. Nature reviews microbiology, 13(5), 269-284.
+### Tools Used:
+Hadaj, P., Strzałka, D., Nowak, M., Łatka, M., & Dymora, P. (2022). The use of PLANS and NetworkX in modeling power grid system failures. Scientific Reports, 12(1), 17445.
+Hunter, J. D. (2007). Matplotlib: A 2D graphics environment. Computing in science & engineering, 9(03), 90-95.
+
+## Appendix:
+### Appendix 1: *All printed results extracted on interactions for fimH gene showing response output complexity:*
+```
+(coursFSR) mohammadhichampolo@MohammadsLaptop Desktop % python gene_gene_interaction.py Enter the gene name (e.g., fimH): fimH
+Fetching gene interactions from BioGRID...
+API URL: https://webservice.thebiogrid.org/interactions?searchNames=true&geneList=fimH&format=json&includeInteractors=true&accesskey=a 09f822b7bbe971d60f568d43feeb018
+Data successfully retrieved!
+Number of interactions found: 9
+Interaction ID: 1373311
+Raw Interaction Details: {'BIOGRID_INTERACTION_ID': 1373311, 'ENTREZ_GENE_A': '12932225', 'ENTREZ_GENE_B': '12933743', 'BIOGRID_ID_A': 4261219, 'BIOGRID_ID_B': 4262737, 'SYSTEMATIC_NAME_A': 'Y75_p3762', 'SYSTEMATIC_NAME_B': 'Y75_p4206', 'OFFICIAL_SYMBOL_A': 'gntY', 'OFFICIAL_SYMBOL_B': 'fimH', 'SYNONYMS_A': '-', 'SYNONYMS_B': '-', 'EXPERIMENTAL_SYSTEM': 'Positive Genetic', 'EXPERIMENTAL_SYSTEM_TYPE': 'genetic', 'PUBMED_AUTHOR': 'Babu M (2014)', 'PUBMED_ID': 24586182, 'ORGANISM_A': 316407, 'ORGANISM_B': 316407, 'THROUGHPUT': 'High Throughput', 'QUANTITATION': '3.1886', 'MODIFICATION': '-', 'ONTOLOGY_TERMS': {}, 'QUALIFICATIONS': 'Conditions: rich growth medium|Genetic interactions were considered significant if they had an S-score >= 3.08809 for positive interactions (alleviating interactions) and S-score <= -3.38787 for negative interactions (aggravating interactions).', 'TAGS': '-', 'SOURCEDB': 'BIOGRID'}
+Interactor A: gntY
+Interactor B: fimH
+Interaction ID: 1373312
+Raw Interaction Details: {'BIOGRID_INTERACTION_ID': 1373312, 'ENTREZ_GENE_A': '12932164', 'ENTREZ_GENE_B': '12933743', 'BIOGRID_ID_A': 4261158, 'BIOGRID_ID_B': 4262737, 'SYSTEMATIC_NAME_A': 'Y75_p3058', 'SYSTEMATIC_NAME_B': 'Y75_p4206', 'OFFICIAL_SYMBOL_A': 'agaS', 'OFFICIAL_SYMBOL_B': 'fimH', 'SYNONYMS_A': '-', 'SYNONYMS_B': '-', 'EXPERIMENTAL_SYSTEM': 'Positive Genetic', 'EXPERIMENTAL_SYSTEM_TYPE': 'genetic', 'PUBMED_AUTHOR': 'Babu M (2014)', 'PUBMED_ID': 24586182, 'ORGANISM_A': 316407, 'ORGANISM_B': 316407, 'THROUGHPUT': 'High Throughput', 'QUANTITATION': '4.72872', 'MODIFICATION': '-', 'ONTOLOGY_TERMS': {}, 'QUALIFICATIONS': 'Conditions: rich growth medium|Genetic interactions were considered significant if they had an S-score >= 3.08809 for positive interactions (alleviating interactions) and S-score <= -3.38787 for negative interactions (aggravating interactions).', 'TAGS': '-', 'SOURCEDB': 'BIOGRID'}
+Interactor A: agaS
+Interactor B: fimH
+Interaction ID: 1373313
+Raw Interaction Details: {'BIOGRID_INTERACTION_ID': 1373313, 'ENTREZ_GENE_A': '12932418', 'ENTREZ_GENE_B': '12933743', 'BIOGRID_ID_A': 4261412, 'BIOGRID_ID_B': 4262737, 'SYSTEMATIC_NAME_A': 'Y75_p2934', 'SYSTEMATIC_NAME_B': 'Y75_p4206', 'OFFICIAL_SYMBOL_A': 'exbB', 'OFFICIAL_SYMBOL_B': 'fimH', 'SYNONYMS_A': '-', 'SYNONYMS_B': '-', 'EXPERIMENTAL_SYSTEM': 'Negative Genetic', 'EXPERIMENTAL_SYSTEM_TYPE': 'genetic', 'PUBMED_AUTHOR': 'Babu M (2014)', 'PUBMED_ID': 24586182, 'ORGANISM_A': 316407, 'ORGANISM_B': 316407, 'THROUGHPUT': 'High Throughput', 'QUANTITATION': '-4.09639', 'MODIFICATION': '-', 'ONTOLOGY_TERMS': {}, 'QUALIFICATIONS': 'Conditions: rich growth medium|Genetic interactions were considered significant if they had an S-score >= 3.08809 for positive interactions (alleviating interactions) and S-score <= -3.38787 for negative interactions (aggravating interactions).', 'TAGS': '-', 'SOURCEDB': 'BIOGRID'}
+Interactor A: exbB
+Interactor B: fimH
+Interaction ID: 1373314
+Raw Interaction Details: {'BIOGRID_INTERACTION_ID': 1373314, 'ENTREZ_GENE_A': '12933359', 'ENTREZ_GENE_B': '12933743', 'BIOGRID_ID_A': 4262353, 'BIOGRID_ID_B': 4262737, 'SYSTEMATIC_NAME_A': 'Y75_p2897', 'SYSTEMATIC_NAME_B': 'Y75_p4206', 'OFFICIAL_SYMBOL_A': 'yghD', 'OFFICIAL_SYMBOL_B': 'fimH', 'SYNONYMS_A': '-', 'SYNONYMS_B': '-', 'EXPERIMENTAL_SYSTEM': 'Negative Genetic', 'EXPERIMENTAL_SYSTEM_TYPE': 'genetic', 'PUBMED_AUTHOR': 'Babu M (2014)', 'PUBMED_ID': 24586182, 'ORGANISM_A': 316407, 'ORGANISM_B': 316407, 'THROUGHPUT': 'High Throughput', 'QUANTITATION': '-6.00313', 'MODIFICATION': '-', 'ONTOLOGY_TERMS': {}, 'QUALIFICATIONS': 'Conditions: rich growth medium|Genetic interactions were considered significant if they had an S-score >= 3.08809 for positive interactions (alleviating interactions) and S-score <= -3.38787 for negative interactions (aggravating interactions).', 'TAGS': '-', 'SOURCEDB': 'BIOGRID'}
+Interactor A: yghD
+Interactor B: fimH
+Interaction ID: 1373315
+Raw Interaction Details: {'BIOGRID_INTERACTION_ID': 1373315, 'ENTREZ_GENE_A': '12932133', 'ENTREZ_GENE_B': '12933743', 'BIOGRID_ID_A': 4261127, 'BIOGRID_ID_B': 4262737, 'SYSTEMATIC_NAME_A': 'Y75_p2749', 'SYSTEMATIC_NAME_B': 'Y75_p4206', 'OFFICIAL_SYMBOL_A': 'ygdL', 'OFFICIAL_SYMBOL_B': 'fimH', 'SYNONYMS_A': '-', 'SYNONYMS_B': '-', 'EXPERIMENTAL_SYSTEM':
+'Negative Genetic', 'EXPERIMENTAL_SYSTEM_TYPE': 'genetic', 'PUBMED_AUTHOR': 'Babu M (2014)', 'PUBMED_ID': 24586182, 'ORGANISM_A': 316407, 'ORGANISM_B': 316407, 'THROUGHPUT': 'High Throughput', 'QUANTITATION': '-7.21251', 'MODIFICATION': '-', 'ONTOLOGY_TERMS': {}, 'QUALIFICATIONS': 'Conditions: rich growth medium|Genetic interactions were considered significant if they had an S-score >= 3.08809 for positive interactions (alleviating interactions) and S-score <= -3.38787 for negative interactions (aggravating interactions).', 'TAGS': '-', 'SOURCEDB': 'BIOGRID'}
+Interactor A: ygdL Interactor B: fimH
+Interaction ID: 1373316
+Raw Interaction Details: {'BIOGRID_INTERACTION_ID': 1373316, 'ENTREZ_GENE_A': '12931754', 'ENTREZ_GENE_B': '12933743', 'BIOGRID_ID_A': 4260748, 'BIOGRID_ID_B': 4262737, 'SYSTEMATIC_NAME_A': 'Y75_p2698', 'SYSTEMATIC_NAME_B': 'Y75_p4206', 'OFFICIAL_SYMBOL_A': 'ygcL', 'OFFICIAL_SYMBOL_B': 'fimH', 'SYNONYMS_A': '-', 'SYNONYMS_B': '-', 'EXPERIMENTAL_SYSTEM': 'Positive Genetic', 'EXPERIMENTAL_SYSTEM_TYPE': 'genetic', 'PUBMED_AUTHOR': 'Babu M (2014)', 'PUBMED_ID': 24586182, 'ORGANISM_A': 316407, 'ORGANISM_B': 316407, 'THROUGHPUT': 'High Throughput', 'QUANTITATION': '3.51635', 'MODIFICATION': '-', 'ONTOLOGY_TERMS': {}, 'QUALIFICATIONS': 'Conditions: rich growth medium|Genetic interactions were considered significant if they had an S-score >= 3.08809 for positive interactions (alleviating interactions) and S-score <= -3.38787 for negative interactions (aggravating interactions).', 'TAGS': '-', 'SOURCEDB': 'BIOGRID'}
+Interactor A: ygcL
+Interactor B: fimH
+Interaction ID: 1373317
+Raw Interaction Details: {'BIOGRID_INTERACTION_ID': 1373317, 'ENTREZ_GENE_A': '12931111', 'ENTREZ_GENE_B': '12933743', 'BIOGRID_ID_A': 4260105, 'BIOGRID_ID_B': 4262737, 'SYSTEMATIC_NAME_A': 'Y75_p1162', 'SYSTEMATIC_NAME_B': 'Y75_p4206', 'OFFICIAL_SYMBOL_A': 'dadX', 'OFFICIAL_SYMBOL_B': 'fimH', 'SYNONYMS_A': '-', 'SYNONYMS_B': '-', 'EXPERIMENTAL_SYSTEM': 'Negative Genetic', 'EXPERIMENTAL_SYSTEM_TYPE': 'genetic', 'PUBMED_AUTHOR': 'Babu M (2014)', 'PUBMED_ID': 24586182, 'ORGANISM_A': 316407, 'ORGANISM_B': 316407, 'THROUGHPUT': 'High Throughput', 'QUANTITATION': '-4.23559', 'MODIFICATION': '-', 'ONTOLOGY_TERMS': {}, 'QUALIFICATIONS': 'Conditions: rich growth medium|Genetic interactions were considered significant if they had an S-score >= 3.08809 for positive interactions (alleviating interactions) and S-score <= -3.38787 for negative interactions (aggravating interactions).', 'TAGS': '-', 'SOURCEDB': 'BIOGRID'}
+Interactor A: dadX
+Interactor B: fimH
+Interaction ID: 1373318
+Raw Interaction Details: {'BIOGRID_INTERACTION_ID': 1373318, 'ENTREZ_GENE_A': '12931077', 'ENTREZ_GENE_B': '12933743', 'BIOGRID_ID_A': 4260071, 'BIOGRID_ID_B': 4262737, 'SYSTEMATIC_NAME_A': 'Y75_p1067', 'SYSTEMATIC_NAME_B': 'Y75_p4206', 'OFFICIAL_SYMBOL_A': 'yceG', 'OFFICIAL_SYMBOL_B': 'fimH', 'SYNONYMS_A': '-', 'SYNONYMS_B': '-', 'EXPERIMENTAL_SYSTEM': 'Negative Genetic', 'EXPERIMENTAL_SYSTEM_TYPE': 'genetic', 'PUBMED_AUTHOR': 'Babu M (2014)', 'PUBMED_ID': 24586182, 'ORGANISM_A': 316407, 'ORGANISM_B': 316407, 'THROUGHPUT': 'High Throughput', 'QUANTITATION': '-10.2895', 'MODIFICATION': '-', 'ONTOLOGY_TERMS': {}, 'QUALIFICATIONS': 'Conditions: rich growth medium|Genetic interactions were considered significant if they had an S-score >= 3.08809 for positive interactions (alleviating interactions) and S-score <= -3.38787 for negative interactions (aggravating interactions).', 'TAGS': '-', 'SOURCEDB': 'BIOGRID'}
+Interactor A: yceG
+Interactor B: fimH
+Interaction ID: 3567006
+Raw Interaction Details: {'BIOGRID_INTERACTION_ID': 3567006, 'ENTREZ_GENE_A': '13511', 'ENTREZ_GENE_B': 'BIOGRID_ID_A': 199324, 'BIOGRID_ID_B': 4316806, 'SYSTEMATIC_NAME_A': '-', 'SYSTEMATIC_NAME_B': 'OFFICIAL_SYMBOL_A': 'Dsg2', 'OFFICIAL_SYMBOL_B': 'fimH', 'SYNONYMS_A': 'AA408168|D18Ertd293e', 'SYNONYMS_B': '-', 'EXPERIMENTAL_SYSTEM': 'Reconstituted Complex', 'EXPERIMENTAL_SYSTEM_TYPE': 'physical', 'PUBMED_AUTHOR': 'McLellan LK (2021)', 'PUBMED_ID': 33513212, 'ORGANISM_A': 10090, 'ORGANISM_B': 595496, 'THROUGHPUT': 'Low Throughput', 'QUANTITATION': '-', 'MODIFICATION': '-', 'ONTOLOGY_TERMS': {}, 'QUALIFICATIONS': '-', 'TAGS': '-', 'SOURCEDB': 'BIOGRID'}
+Interactor A: Dsg2
+Interactor B: fimH
+```
+
+### Appendix 2: *Results proposed to the user and printed in the terminal:*
+```
+(coursFSR) mohammadhichampolo@MohammadsLaptop Desktop % python gene_gene_interaction.py
+Enter the gene name (e.g., fimH): fimH
+Fetching gene interactions from BioGRID...
+API URL: https://webservice.thebiogrid.org/interactions?searchNames=true&geneList=fimH&format=json&incl udeInteractors=true&accesskey=a09f822b7bbe971d60f568d43feeb018
+Data successfully retrieved!
+Available keys in the response: ['1373311', '1373312', '1373313', '1373314', '1373315', '1373316', '1373317', '1373318', '3567006']
+Number of interactions found: 9
+Interaction ID: 1373311
+Interactor A: gntY
+Interactor B: fimH
+Quantitation: 3.1886
+
+Interaction ID: 1373312
+Interactor A: agaS
+Interactor B: fimH
+Quantitation: 4.72872
+
+Interaction ID: 1373313
+Interactor A: exbB
+Interactor B: fimH
+Quantitation: -4.09639
+
+Interaction ID: 1373314
+Interactor A: yghD
+Interactor B: fimH
+Quantitation: -6.00313
+
+Interaction ID: 1373315
+Interactor A: ygdL
+Interactor B: fimH
+Quantitation: -7.21251
+
+Interaction ID: 1373316
+Interactor A: ygcL
+Interactor B: fimH
+Quantitation: 3.51635
+
+Interaction ID: 1373317
+Interactor A: dadX
+Interactor B: fimH
+Quantitation: -4.23559
+
+Interaction ID: 1373318
+Interactor A: yceG
+Interactor B: fimH
+Quantitation: -10.2895
+
+Interaction ID: 3567006
+Interactor A: Dsg2
+Interactor B: fimH
+Quantitation: -
+```
+
+### Appendix 3: *Graphic plots proposed by BioGRID in their main website:*
+![*Concentric circle layout.*](./images/biogrid_concentric_circle_layout.png)
+![*Single circle layout*](./images/biogrid_single_circle_layout.png)
+![*GRID layout*](./images/biogrid_GRID_layout.png)
+![*Arbor layout*](./images/biogrid_ARBOR_layout.png)
