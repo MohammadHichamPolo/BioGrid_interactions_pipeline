@@ -49,6 +49,7 @@ Highlight the interactions of fimH, including positive and negative genetic inte
 ## Database Details
 ### Overview of BioGRID:
 ![*figure 1: Home page of BioGRID database website*](./images/biogrid_homepage.jpeg)
+*figure 1: Home page of BioGRID database website*
 #### Description of BioGRID
 BioGRID (Biological General Repository for Interaction Datasets) is a curated database that archives genetic and physical interaction data across species. Its key features include:
 
@@ -64,6 +65,7 @@ Interactions are curated from primary literature and large-scale experiments.
 ### API Details
 The BioGRID REST API enables programmatic access to its repository, facilitating data retrieval for user-defined queries.
 ![*figure 2 : BioGRID webservice generator of API key access*](./images/biogrid_webservice.jpeg)
+*figure 2 : BioGRID webservice generator of API key access*
 #### Key Features of the BioGRID API:
 Flexible search using gene names, systematic IDs, or organism identifiers.
 Output formats: JSON, tab-delimited text, etc.
@@ -146,6 +148,7 @@ first 10 interactions
 ```
 #### Flow Diagram:
 ![*figure 3 : Workflow des tâches au niveau du process et du pipeline.*](./images/workflow_pipeline.png)
+*figure 3 : Workflow des tâches au niveau du process et du pipeline.*
 ### Error Handling and Challenges:
 #### Potential Issues:
 ##### Missing or Incomplete Data:
@@ -220,7 +223,8 @@ Top 5 Interactors (example results):
 
 ### Visualization:
 The gene interaction network for *fimH* is presented below:
-![*figure 5 : Le graphe généré représentant les interactions des 9 gènes trouvés avec fimH; toute distance proche montre une interaction importante; tout gènes rapproché par degré d'angle comme yghD et gntY montre un rapprochement de ces derniers eux aussi.*](./images/gene_gene_interaction_plot.png)
+![*figure 4 : Le graphe généré représentant les interactions des 9 gènes trouvés avec fimH; toute distance proche montre une interaction importante; tout gènes rapproché par degré d'angle comme yghD et gntY montre un rapprochement de ces derniers eux aussi.*](./images/gene_gene_interaction_plot.png)
+*figure 4 : Le graphe généré représentant les interactions des 9 gènes trouvés avec fimH; toute distance proche montre une interaction importante; tout gènes rapproché par degré d'angle comme yghD et gntY montre un rapprochement de ces derniers eux aussi.*
 ## Key Observations:
 *fimH* appears as a central node with multiple direct interactions, emphasizing its pivotal role.
 Interactors such as agaS that is the only gene that has not been linked to any step in the Aga/Gam pathway, and gntY that typically encodes a repressor protein involved in the regulation of genes within the gluconate utilization (gnt) operon also yghD that is predicted to play a role in iron-sulfur cluster (Fe-S cluster) assembly and cellular oxidative stress responses, these genes cluster around *fimH*, indicating their functional associations in fimbrial biogenesis.
@@ -375,6 +379,10 @@ Quantitation: -
 
 ### Appendix 3: *Graphic plots proposed by BioGRID in their main website:*
 ![*Concentric circle layout.*](./images/biogrid_concentric_circle_layout.jpeg)
+*Concentric circle layout.*
 ![*Single circle layout*](./images/biogrid_single_circle_layout.jpeg)
+*Single circle layout*
 ![*GRID layout*](./images/biogrid_GRID_layout.jpeg)
+*GRID layout*
 ![*Arbor layout*](./images/biogrid_ARBOR_layout.jpeg)
+*Arbor layout*
