@@ -33,32 +33,32 @@ Flexible search using gene names, systematic IDs, or organism identifiers.
 Output formats: JSON, tab-delimited text, etc.
 Filtering options: Experimental systems, throughput levels, and evidence types.
 #### Parameters Used in the API Call
-To query interactions for the fimH gene, the following parameters were used:
+To query interactions for the gene of interest like *fimH* gene, the following parameters were used:
 
 searchNames: true (allow search by gene name).
-geneList: fimH (target gene).
+geneList: gene_name.
 format: json (data output format).
 includeInteractors: true (include interacting genes).
 accessKey: User-specific API key.
-4.2 Data Access and Preprocessing
+### Data Access and Preprocessing
+#### Steps Taken to Fetch and Process the Data
 
-Steps Taken to Fetch and Process the Data
-
-API Query:
-Used the BioGRID API to fetch interaction data for fimH using a Python script.
+##### API Query:
+Used the BioGRID API to fetch interaction data for *fimH* using a Python script.
 Example user input:
-Enter the gene name (e.g., fimH): fimH  
-Error Handling:
+```Enter the gene name (e.g., fimH): fimH ```  
+##### Error Handling:
 Ensured robustness by implementing error handling for failed API calls, incorrect inputs, or empty responses.
-Response validation: Checked for the presence of interaction data before proceeding.
-Data Parsing:
+*Response validation:* Checked for the presence of interaction data before proceeding.
+##### Data Parsing:
 Extracted key details from the JSON response, including:
-Interactor A and B (gene names).
-Experimental system (e.g., Positive Genetic, Negative Genetic).
-Quantitation scores (e.g., S-scores indicating interaction strength).
-Source and PubMed references.
-Example JSON Response Structure
-An example snippet of the JSON response for one interaction is as follows:
+- Interactor A and B (gene names).
+- Experimental system (e.g., Positive Genetic, Negative Genetic).
+- Quantitation scores (e.g., S-scores indicating interaction strength).
+- Source and PubMed references.
+##### Example JSON Response Structure:
+- An example snippet of the JSON response for one interaction is as follows:
+```
 {  
    "BIOGRID_INTERACTION_ID": 1373311,  
    "OFFICIAL_SYMBOL_A": "gntY",  
@@ -68,156 +68,109 @@ An example snippet of the JSON response for one interaction is as follows:
    "PUBMED_AUTHOR": "Babu M (2014)",  
    "PUBMED_ID": 24586182  
 }
-Cleaning and Structuring Data:
+```
+##### Cleaning and Structuring Data:
 Stored interactions in a structured format Python dictionary.
 Separated positive and negative interactions for further analysis.
-5.⁠ ⁠Pipeline Implementation
-5.1 Workflow Description
 
+## Pipeline Implementation
+### Workflow Description
 The computational pipeline consists of three main stages:
-
-Data Retrieval:
+#### Data Retrieval:
 The pipeline fetches interaction data for the queried gene (e.g., fimH) using the BioGRID API.
 A GET request is sent to the API endpoint with the required parameters, such as the gene name, format, and API key.
-Data Processing:
+#### Data Processing:
 The JSON response received from the API is parsed and converted into a Python dictionary for further processing.
 The interactors (Interactor A and Interactor B) are extracted and structured into a usable format, such as a pandas DataFrame or a simple edge list.
 Redundant or missing entries are handled, ensuring clean and reliable data.
-Visualization:
-The processed interaction data is visualized as a network graph using libraries such as NetworkX (for graph modeling) and Matplotlib (for plotting).
-Nodes in the graph represent genes or proteins, and edges represent their interactions.
-Graph aesthetics (node size, color, edge thickness) can be adjusted for clarity and insight.
-5.2 Code Overview
-
-This section highlights the main functions used in the pipeline. Each function corresponds to one of the pipeline stages described above.
-
-fetch_gene_interactions
-This function retrieves data from the BioGRID API.
-Input: Gene name (e.g., fimH) and optional API parameters.
-Output: JSON data converted into a Python dictionary.
-Code Snippet:
-
-import requests
-
-def fetch_gene_interactions(gene_name, access_key):
-    """
-    Fetches interaction data for a given gene from the BioGRID API.
-    """
-    url = "https://webservice.thebiogrid.org/interactions"
-    params = {
-        "searchNames": "true",
-        "geneList": gene_name,
-        "format": "json",
-        "includeInteractors": "true",
-        "accessKey": access_key
-    }
-    response = requests.get(url, params=params)
-    
-    if response.status_code == 200:
-        print("Data retrieval successful!")
-        return response.json()  # Convert JSON to Python dictionary
-    else:
-        print(f"API Error: {response.status_code}")
-        return None
-extract_interactors
-This function processes the API response and extracts the key interaction details.
-Input: JSON data (Python dictionary).
-Output: A structured pandas DataFrame or edge list.
-Code Snippet:
-
-import pandas as pd
-
-def extract_interactors(data):
-    """
-    Extracts interactors (Interactor A and B) and formats them into a DataFrame.
-    """
-    interactors = []
-
-    for interaction_id, details in data.items():
-        interactor_a = details["OFFICIAL_SYMBOL_A"]
-        interactor_b = details["OFFICIAL_SYMBOL_B"]
-        interactors.append((interactor_a, interactor_b))
-    
-    df = pd.DataFrame(interactors, columns=["Interactor_A", "Interactor_B"])
-    return df
-plot_interaction_network
-This function visualizes the interaction network using NetworkX and Matplotlib.
-Input: DataFrame containing interactors (A, B).
-Output: A network graph plot.
-Code Snippet:
-
-import networkx as nx
-import matplotlib.pyplot as plt
-
-def plot_interaction_network(df):
-    """
-    Plots the gene interaction network.
-    """
-    G = nx.Graph()
-    
-    # Add edges to the graph
-    for _, row in df.iterrows():
-        G.add_edge(row["Interactor_A"], row["Interactor_B"])
-    
-    # Plot the network
-    plt.figure(figsize=(10, 8))
-    pos = nx.spring_layout(G)
-    nx.draw(G, pos, with_labels=True, node_color="skyblue", node_size=1500, edge_color="gray", font_size=10)
-    plt.title("Gene Interaction Network")
-    plt.show()
-Flow Diagram
-Below is a simplified diagram of the pipeline:
-+--------------------+       +-----------------------+       +-----------------------+
-|   Data Retrieval   | ----> |   Data Processing     | ----> |   Visualization       |
-| (fetch interactions)|       | (extract interactors) |       | (plot interaction graph)|
-+--------------------+       +-----------------------+       +-----------------------+
-5.3 Error Handling and Challenges
-
-Potential Issues:
-Missing or Incomplete Data:
+#### Visualization:
+- The processed interaction data is visualized as a network graph using libraries such as NetworkX (for graph modeling) and Matplotlib (for plotting).
+- Nodes in the graph represent genes or proteins, their color depends on *interaction type*, ```color="lightcoral"``` for negative interactions,  ```color="springgreen"``` for positive interactions, and ```color="lightblue"``` for the neutral ones or a missing data for the interaction type. However the edges represent their interactions.
+- Graph aesthetics (node size, color, edge thickness) can be adjusted for clarity and insight.
+### Code Overview :
+*This section highlights the main functions used in the pipeline. Each function corresponds to one of the pipeline stages described above.*
+#### Main Code :
+```
+if __name__ == "__main__":
+   gene_name = input("Enter the gene name (e.g., fimH): ").strip()
+   interactions = fetch_gene_interactions(gene_name)
+   if interactions:
+       print(f"\nNumber of interactions found: {len(interactions)}\n")
+       for interaction_id, details in list(interactions.items())[:10]:  # Display
+first 10 interactions
+           interactor_a, interactor_b, quantitation = extract_interactors(details)
+           print(f"Interaction ID: {interaction_id}")
+           print(f"Interactor A: {interactor_a or 'N/A'}")
+           print(f"Interactor B: {interactor_b or 'N/A'}")
+           print(f"Quantitation: {quantitation or 'N/A'}\n")
+       plot_interaction_network(interactions, gene_name)
+   else:
+       print("No interactions to display.")
+```
+#### Flow Diagram:
+![*Figure 3 : Workflow des tâches au niveau du process et du pipeline.*](./images/diagram.png)
+### Error Handling and Challenges:
+#### Potential Issues:
+##### Missing or Incomplete Data:
 The BioGRID API may return entries with missing fields or undefined interactions.
-Solution:
+*Solution:*
 Use data validation checks during the extraction step to filter out incomplete records.
-Example:
-
-if "OFFICIAL_SYMBOL_A" in details and "OFFICIAL_SYMBOL_B" in details:
-    interactors.append((details["OFFICIAL_SYMBOL_A"], details["OFFICIAL_SYMBOL_B"]))
-API Failures:
+*Example:*
+```
+for interaction_id, details in interactions.items():
+    interactor_a, interactor_b = extract_interactors(details)
+    if interactor_a and interactor_b:
+        G.add_node(interactor_a, color="springgreen", size=500)
+        G.add_node(interactor_b, color="orange", size=1200)
+        G.add_edge(interactor_a, interactor_b)
+if len(G.edges) == 0:
+    print("No valid edges found in the interaction data.")
+    return
+```
+##### API Failures:
 Errors such as timeouts, invalid parameters, or rate-limiting can interrupt the pipeline.
-Solution:
+*Solution:*
 Implement error handling and retry mechanisms using try-except blocks.
-try:
-    response = requests.get(url, params=params)
-    response.raise_for_status()
-except requests.exceptions.RequestException as e:
-    print(f"Error occurred: {e}")
-Large Data Size:
+*Exemple:*
+```
+if response.status_code == 200:
+    try:
+        data = response.json()
+        if not data:
+            print("No interaction data found for the given gene.")
+        else:
+            print("Data successfully retrieved!")
+        return data
+    except ValueError:
+        print("Error parsing response as JSON.")
+        print("Response Text:", response.text)
+else:
+    print(f"Error fetching data from BioGRID: {response.status_code}")
+    print("Response Text:", response.text)
+```
+##### Large Data Size:
 Large query results may lead to excessive memory usage or slow processing.
-Solution:
+*Solution:*
 Use batch processing or limit the number of returned records using API parameters.
-Challenges Encountered:
-Parsing complex JSON responses with nested fields.
+#### Challenges Encountered:
+*Parsing complex JSON responses with nested fields:*
 Addressed by carefully inspecting the JSON structure and extracting the necessary keys.
-Visual clutter in large interaction networks.
+*Visual clutter in large interaction networks:*
 Resolved by optimizing the layout, adjusting node size, and filtering low-confidence interactions.
-By implementing robust error handling and optimized processing, the pipeline ensures reliability and efficiency, even with large or complex datasets.
-6. Case Study: Analysis of the fimH Gene
-6.1 Biological Context
-
-The fimH gene encodes the FimH adhesin protein, a key component of the type 1 fimbriae in Escherichia coli (E. coli). It is primarily associated with uropathogenic E. coli (UPEC), where it plays a critical role in bacterial adhesion to host tissues.
-
-Biological Significance:
-FimH mediates attachment to mannosylated glycoproteins on the surface of urothelial cells, contributing to the colonization and pathogenesis of urinary tract infections (UTIs).
+*By implementing robust error handling and optimized processing, the pipeline ensures reliability and efficiency, even with large or complex datasets.*
+## Case Study: Analysis of the fimH Gene:
+### Biological Context:
+The *fimH* gene encodes the FimH adhesin protein, a key component of the type 1 fimbriae in Escherichia coli (E. coli). It is primarily associated with uropathogenic E. coli (UPEC), where it plays a critical role in bacterial adhesion to host tissues.
+### Biological Significance:
+*fimH* mediates attachment to mannosylated glycoproteins on the surface of urothelial cells, contributing to the colonization and pathogenesis of urinary tract infections (UTIs).
 It is a target for anti-adhesion therapies, which aim to block bacterial attachment without promoting antibiotic resistance.
-Known Interactions:
-FimH interacts with host receptors (e.g., mannose residues) and other bacterial proteins involved in fimbrial assembly and stability.
+### Known Interactions:
+*fimH* interacts with host receptors (e.g., mannose residues) and other bacterial proteins involved in fimbrial assembly and stability.
 Understanding these interactions can provide insight into UPEC pathogenesis and potential intervention strategies.
-6.2 Results
-
-Data Summary:
+## Results:
+### Data Summary:
 Using the BioGRID API, interaction data for the fimH gene was fetched and processed. The following summarizes the key findings:
-
-Total Number of Interactions: n = 35 (example number).
+Total Number of Interactions: n = 9.
 Top 5 Interactors (example results):
 Interactor A	Interactor B	Interaction Type	Biological Significance
 fimH	mannosylated_host	Physical Interaction	Mediates bacterial adhesion to host.
