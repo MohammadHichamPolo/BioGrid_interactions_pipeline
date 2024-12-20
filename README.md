@@ -1,4 +1,38 @@
 # BioGrid_interactions_pipeline
+## Table of Contents
+1. [Abstract](#abstract)
+2. [Introduction](#introduction)
+   - [Background](#background)
+   - [Objective](#objective)
+3. [Database Details](#database-details)
+   - [Overview of BioGRID](#overview-of-biogrid)
+   - [API Details](#api-details)
+   - [Data Access and Preprocessing](#data-access-and-preprocessing)
+4. [Pipeline Implementation](#pipeline-implementation)
+   - [Workflow Description](#workflow-description)
+   - [Code Overview](#code-overview)
+   - [Error Handling and Challenges](#error-handling-and-challenges)
+5. [Case Study: Analysis of the fimH Gene](#case-study-analysis-of-the-fimh-gene)
+   - [Biological Context](#biological-context)
+   - [Biological Significance](#biological-significance)
+   - [Known Interactions](#known-interactions)
+6. [Results](#results)
+   - [Data Summary](#data-summary)
+   - [Visualization](#visualization)
+   - [Key Observations](#key-observations)
+   - [Interpretation](#interpretation)
+7. [Discussion](#discussion)
+   - [Strengths of the Pipeline](#strengths-of-the-pipeline)
+   - [Utility](#utility)
+   - [Limitations](#limitations)
+   - [Future Directions](#future-directions)
+8. [Conclusion](#conclusion)
+9. [References](#references)
+10. [Appendix](#appendix)
+    - [Appendix 1: Raw JSON Response Example](#appendix-1-raw-json-response-example)
+    - [Appendix 2: Terminal Results](#appendix-2-terminal-results)
+    - [Appendix 3: BioGRID Plots](#appendix-3-biogrid-plots)
+    
 ## Abstract:
 The study focuses on developing a computational pipeline to extract and visualize gene interactions, showcasing its utility through the analysis of the fimH gene. The pipeline integrates the BioGRID database via its API to retrieve genetic interaction data, preprocesses it, and generates interactive visualizations to highlight significant relationships. Results demonstrate 9 gene interactions for fimH, with notable positive and negative genetic interactions. The findings underscore the pipeline’s potential for large-scale genomic studies, particularly in identifying functional relationships between genes. The approach can be applied to other genes of interest, contributing to research in systems biology and functional genomics.
 ## Introduction
