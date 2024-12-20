@@ -14,7 +14,7 @@ Demonstrate the pipeline’s utility using the fimH gene as a case study.
 Highlight the interactions of fimH, including positive and negative genetic interactions, and discuss their biological significance.
 ## Database Details
 ### Overview of BioGRID:
-![*figure 1: Home page of BioGRID database website*](./images/biogrid_homepage.png)
+![*figure 1: Home page of BioGRID database website*](./images/biogrid_homepage.jpeg)
 #### Description of BioGRID
 BioGRID (Biological General Repository for Interaction Datasets) is a curated database that archives genetic and physical interaction data across species. Its key features include:
 
@@ -29,7 +29,7 @@ BioGRID includes data for thousands of species, with a focus on model organisms 
 Interactions are curated from primary literature and large-scale experiments.
 ### API Details
 The BioGRID REST API enables programmatic access to its repository, facilitating data retrieval for user-defined queries.
-![*figure 2 : BioGRID webservice generator of API key access*](./images/biogrid_webservice.png)
+![*figure 2 : BioGRID webservice generator of API key access*](./images/biogrid_webservice.jpeg)
 #### Key Features of the BioGRID API:
 Flexible search using gene names, systematic IDs, or organism identifiers.
 Output formats: JSON, tab-delimited text, etc.
@@ -340,7 +340,7 @@ Quantitation: -
 ```
 
 ### Appendix 3: *Graphic plots proposed by BioGRID in their main website:*
-![*Concentric circle layout.*](./images/biogrid_concentric_circle_layout.png)
-![*Single circle layout*](./images/biogrid_single_circle_layout.png)
-![*GRID layout*](./images/biogrid_GRID_layout.png)
-![*Arbor layout*](./images/biogrid_ARBOR_layout.png)
+![*Concentric circle layout.*](./images/biogrid_concentric_circle_layout.jpeg)
+![*Single circle layout*](./images/biogrid_single_circle_layout.jpeg)
+![*GRID layout*](./images/biogrid_GRID_layout.jpeg)
+![*Arbor layout*](./images/biogrid_ARBOR_layout.jpeg)
